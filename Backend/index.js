@@ -17,6 +17,16 @@ app.use(cors({
 }))
 app.use(express.urlencoded({extended:true}))
 
+
+import authRoutes from './routes/auth.routes.js'
+
+app.use('/api/v1',authRoutes)
+
+
+
+
+
+
 connectDb()
 .then(()=>{
     app.listen(PORT,(err)=>{
