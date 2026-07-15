@@ -11,7 +11,7 @@ export const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    if (!user || !email || !password) {
+    if (!name || !email || !password) {
       return res.json({
         success: false,
         message: "All fields are Required to Register User",
@@ -43,11 +43,11 @@ export const register = async (req, res) => {
          To complete your registration please Enter Your OTP.
          Your OTP for BAZAAR id ${otp} `;
 
-      await sendEmail(
-        email,
-        "Welcome To Bazaar - Your OTP for Registraion",
-        message,
-      );
+      await sendEmail({
+        email: email,
+        subject: "Welcome To Bazaar - Your OTP for Registration",
+        message: message,
+      });
 
       res.status(201).json({
         success: true,
@@ -60,31 +60,30 @@ export const register = async (req, res) => {
           token: generateToken(user._id),
         },
       });
-    }else{
+    } else {
       res.status(500).json({
-      success: false,
-      message: "Error While creating user",
-    });
+        success: false,
+        message: "Error While creating user",
+      });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error in Register controller",
+      message: "Error in Register controller" + error,
     });
   }
 };
 
-
-
-
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    if(!email || !password){
-       return res.status(401).json({ message: 'Both email and password are required' });
+    if (!email || !password) {
+      return res
+        .status(401)
+        .json({ message: "Both email and password are required" });
     }
 
-    const user = await User.findOne({ email });
+    const user = await Users.findOne({ email });
 
     if (user && (await bcrypt.compare(password, user.password))) {
       res.json({
@@ -92,18 +91,15 @@ export const login = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
-        token: generateToken(user._id)
+        token: generateToken(user._id),
       });
     } else {
-      return res.status(401).json({ message: 'Invalid email or password' });
+      return res.status(401).json({ message: "Invalid email or password" });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
-
-
-
 
 export const logout = async (req, res) => {
   res.json({
@@ -112,12 +108,9 @@ export const logout = async (req, res) => {
   });
 };
 
-
-
-
-const getUsers = async (req, res) => {
+export const getUsers = async (req, res) => {
   try {
-    const users = await User.find({}).select('-password');
+    const users = await Users.find({}).select("-password");
     res.json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -11,7 +11,7 @@ export const sendEmail = async ({ email, subject, message }) => {
     });
 
     const mailOptions = {
-      from: `"ShopNest Support" <${process.env.GMAIL_USER}>`,
+      from: `"Bazaar Support" <${process.env.GMAIL_USER}>`,
       to: email,
       subject: subject,
       html: message,
@@ -20,6 +20,6 @@ export const sendEmail = async ({ email, subject, message }) => {
     await transporter.sendMail(mailOptions);
     console.log(`Email successfully sent to ${email}`);
   } catch (error) {
-    console.error(`Failed to send email to ${email}: ${error.message}`);
+    console.error(`Failed to send email to ${email}: ${error}`);
   }
 };
