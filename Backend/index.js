@@ -20,9 +20,15 @@ app.use(express.urlencoded({extended:true}))
 
 import authRoutes from './routes/auth.routes.js'
 import productRoutes from './routes/productRoutes.js'
+import orderRoutes from './routes/order.routes.js'
+import paymentRoutes from './routes/payment.routes.js'
+import analyticsRoutes from './routes/analytics.routes.js'
 
 app.use('/api/v1/auth',authRoutes)
 app.use('/api/v1/products',productRoutes)
+app.use('/api/v1/orders',orderRoutes)
+app.use('/api/v1/payments', paymentRoutes)
+app.use('/api/v1/analytics', analyticsRoutes)
 
 
 
