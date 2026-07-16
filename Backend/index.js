@@ -19,8 +19,10 @@ app.use(express.urlencoded({extended:true}))
 
 
 import authRoutes from './routes/auth.routes.js'
+import productRoutes from './routes/productRoutes.js'
 
-app.use('/api/v1',authRoutes)
+app.use('/api/v1/auth',authRoutes)
+app.use('/api/v1/products',productRoutes)
 
 
 
